@@ -9,7 +9,7 @@ import torch
 from tqdm import tqdm
 
 import ChatTTS
-from config import DEFAULT_TEMPERATURE, DEFAULT_TOP_P, DEFAULT_TOP_K
+from config import DEFAULT_TEMPERATURE, DEFAULT_TOP_P, DEFAULT_TOP_K, DEFAULT_DIR
 
 
 def load_chat_tts_model(source='huggingface', force_redownload=False, local_path=None):
@@ -51,7 +51,7 @@ def deterministic(seed=0):
 def generate_audio_for_seed(chat, seed, texts, batch_size, speed, refine_text_prompt, roleid=None,
                             temperature=DEFAULT_TEMPERATURE,
                             top_P=DEFAULT_TOP_P, top_K=DEFAULT_TOP_K, cur_tqdm=None, skip_save=False,
-                            skip_refine_text=False, speaker_type="seed", pt_file=None):
+                            skip_refine_text=False, speaker_type="seed", pt_file=None, section=None):
     from utils import combine_audio, save_audio, batch_split
     print(f"speaker_type: {speaker_type}")
     if speaker_type == "seed":
@@ -118,7 +118,13 @@ def generate_audio_for_seed(chat, seed, texts, batch_size, speed, refine_text_pr
     elapsed_time = end_time - start_time
     print(f"Saving audio for seed {seed}, took {elapsed_time:.2f}s")
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
-    wav_filename = f"chattts-[seed_{seed}][speed_{speed}]{refine_text_prompt}[{timestamp}].wav"
+    # 将生成的文件保存到网盘中
+    if section:
+        if not os.path.exists(f"{DEFAULT_DIR}/{section}/"):
+            os.makedirs(f"{DEFAULT_DIR}/{section}/")
+        wav_filename = f"{section}/chattts-[seed_{seed}][speed_{speed}]{refine_text_prompt}[{timestamp}].wav"
+    else:
+        wav_filename = f"chattts-[seed_{seed}][speed_{speed}]{refine_text_prompt}[{timestamp}].wav"
     return save_audio(wav_filename, combined_audio)
 
 
