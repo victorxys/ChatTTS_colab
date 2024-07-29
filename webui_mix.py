@@ -302,7 +302,7 @@ def generate_tts_audio(text_file, num_seeds, seed, speed, oral, laugh, bk, min_l
 def generate_tts_audio_stream(text_file, num_seeds, seed, speed, oral, laugh, bk, min_length, batch_size, temperature,
                               top_P,
                               top_K, roleid=None, refine_text=True, speaker_type="seed", pt_file=None,
-                              stream_mode="fake"):
+                              stream_mode="fake",section=None):
     from utils import split_text, replace_tokens, restore_tokens
     from tts_model import deterministic
     if seed in [0, -1, None]:
@@ -523,6 +523,9 @@ with gr.Blocks() as demo:
     with gr.Tab("长音频生成"):
         with gr.Row():
             with gr.Column():
+                gr.Markdown("### 章节(Section)")
+                section_input = gr.Textbox(label=f"可以输入章节，便于按章节存储）", lines=4,
+                                             placeholder="Please Input Text...", value=“”)
                 gr.Markdown("### 文本")
                 # gr.Markdown("请上传要转换的文本文件（.txt 格式）。")
                 # text_file_input = gr.File(label="文本文件", file_types=[".txt"])
@@ -686,7 +689,8 @@ with gr.Blocks() as demo:
                 roleid_input,
                 refine_text_input,
                 speaker_stat,
-                pt_input
+                pt_input,
+                section_input
             ],
             outputs=[output_audio]
         )
@@ -710,7 +714,8 @@ with gr.Blocks() as demo:
                 refine_text_input,
                 speaker_stat,
                 pt_input,
-                stream_select
+                stream_select,
+                section_input
             ],
             outputs=[output_audio_stream]
         )
