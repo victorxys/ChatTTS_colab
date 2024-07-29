@@ -1,6 +1,15 @@
+import os
+def is_drive_mounted():
+    """检查Google Drive是否已经挂载"""
+    return os.path.exists('/content/drive') and os.path.ismount('/content/drive')
+
 #  Description: Configuration file for the project
 llama_seed = 2581
-DEFAULT_DIR = "output"
+if is_drive_mounted():
+    print(f"Google Drive has mounted, use it to save output")
+    DEFAULT_DIR = '/content/drive/MyDrive/ChatTTS_output'
+else:
+    DEFAULT_DIR = 'output'
 DEFAULT_SPEED = 5
 DEFAULT_ORAL = 2
 DEFAULT_LAUGH = 0
