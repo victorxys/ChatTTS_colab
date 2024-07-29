@@ -524,7 +524,7 @@ with gr.Blocks() as demo:
         with gr.Row():
             with gr.Column():
                 gr.Markdown("### 章节(Section)")
-                section_input = gr.Textbox(label=f"可以输入章节，便于按章节存储）", lines=4,
+                section_input = gr.Textbox(label=f"可以输入章节，便于按章节存储，建议使用英文或数字便于创建相应保存目录）", lines=1,
                                              placeholder="Please Input Text...", value="")
                 gr.Markdown("### 文本")
                 # gr.Markdown("请上传要转换的文本文件（.txt 格式）。")
