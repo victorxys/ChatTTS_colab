@@ -136,7 +136,7 @@ def generate_seeds(num_seeds, texts, tq):
     for _ in tq(range(num_seeds), desc=f"随机音色生成中..."):
         seed = np.random.randint(0, 9999)
 
-        filename = generate_audio_for_seed(chat, seed, texts, 1, 5, "[oral_2][laugh_0][break_4]", None, 0.3, 0.7, 20)
+        filename = generate_audio_for_seed(chat, seed, texts, 1, 1, "[oral_2][laugh_0][break_4]", None, 0.3, 0.7, 20)
         seeds.append((filename, seed))
         clear_cuda_cache()
 
