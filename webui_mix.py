@@ -255,7 +255,7 @@ def seed_change(evt: gr.SelectData):
 
 
 def generate_tts_audio(text_file, num_seeds, seed, speed, oral, laugh, bk, min_length, batch_size, temperature, top_P,
-                       top_K, roleid=None, refine_text=True, speaker_type="seed", pt_file=None, progress=gr.Progress()):
+                       top_K, roleid=None, refine_text=True, speaker_type="seed", pt_file=None, section=None, progress=gr.Progress()):
     from tts_model import generate_audio_for_seed
     from utils import split_text, replace_tokens, restore_tokens
     if seed in [0, -1, None]:
@@ -292,6 +292,7 @@ def generate_tts_audio(text_file, num_seeds, seed, speed, oral, laugh, bk, min_l
             skip_refine_text=not refine_text,
             speaker_type=speaker_type,
             pt_file=pt_file,
+            section=section,
         )
         return output_files
     except Exception as e:
